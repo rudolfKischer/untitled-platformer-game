@@ -33,7 +33,7 @@
      * This is because the way git manages changes is not ideal for large file types or binaries
      * install with `git lfs install`
      * Before pushing a large file, ensure its file type is in the `.gitattributes` file
-   * *Unity Unity and Unity*
+   * *Unity Hub and Unity*
      * install unity hub [here](https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe)
      * through unity hub install version 202.3.11f1 
  * *clone instructions go here*
