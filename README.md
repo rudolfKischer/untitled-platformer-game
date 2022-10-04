@@ -27,6 +27,7 @@
         3.  authenticate git with credentials `Y`
         4.  `Login with a web browser`, copy the code given and proceed to website
         5.  Login with git hub credentials
+        6.  Login to git with email `git config --global user.email "<yourEmail@email.site>"`
    * *lfs instructions go here*
    * *Unity version and install go here*
    
