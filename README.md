@@ -5,6 +5,7 @@
 # Setup
  * *install instructions go here*
    * *git windows installation*
+   * *fix line endings ```git config --global core.autocrlf true```*
    * *lfs instructions go here*
    * *Unity version and install go here*
    * *Editor install and extensions go here*
