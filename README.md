@@ -5,7 +5,7 @@
 # Setup
  * *install instructions go here*
    * *Unity version and install go here*
-   * *Editor install and extensions go here *
+   * *Editor install and extensions go here*
  * *clone instructions go here*
  * *permission instructions go here*
  * *lfs instructions go here*
