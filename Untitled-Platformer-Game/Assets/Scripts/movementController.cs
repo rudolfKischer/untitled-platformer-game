@@ -12,20 +12,34 @@ public class movementController : MonoBehaviour
 
     public Animator anim;
 
-
+    //controls
     float horizontal;
     float vertical;
+    bool dashing;
+
     float onGround = 1;
 
-    public float runSpeed = 10.0f;
+    
+    
+
+    //vertical Movement
+    public float holdJumpStrength = 1.0f;
     public float jumpSpeed = 20.0f;
     public float upGravity = -2.00f;
     public float downGravity = -3.0f;
 
-    public float verticalVelocity = 0.0f;
+    //horizonal movement
+    public float dashSpeed = 40.0f;
+    public float dashTime = 0.2f;
+    public float dashCoolDown = 0.3f;
+    public float dashTimer = 0.0f;
+
     public float horizontalVelocity = 0.0f;
+    public float verticalVelocity = 0.0f;
+    public float runSpeed = 10.0f;
     
-    public float holdJumpStrength = 1.0f;
+    
+    
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +53,20 @@ public class movementController : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Jump");
-        Debug.Log(isGrounded());
+        if(dashTimer < dashCoolDown && Input.GetKeyDown(KeyCode.LeftShift)){
+            dashTimer = dashTime;
+        }else{
+            dashTimer -= Time.deltaTime;
+            if(dashTimer < 0.0f){
+                dashTimer = 0.0f;
+            }
+        } 
+       
+        animate();
+        
+
+        Debug.Log("isGrounded:"+isGrounded());
+        
     }
 
     private void OnCollisionStay2D(Collision2D collision){
@@ -63,6 +90,11 @@ public class movementController : MonoBehaviour
         return Physics2D.BoxCast(coll.bounds.center, size, 0f, Vector2.down, 0.1f, groundLayer);
     }
 
+    private void dash(){
+        if(dashTimer > 0){
+            horizontalVelocity += horizontal * dashSpeed;
+        }
+    }
 
     private void jump(){
         if(!isGrounded()){
@@ -114,11 +146,11 @@ public class movementController : MonoBehaviour
     //updates with time
     private void FixedUpdate()
     {   
-        //do ground check
-        jump();
-        animate();
         horizontalVelocity = horizontal * runSpeed;
+        jump();
+        dash();
         body.velocity = new Vector2(horizontalVelocity, verticalVelocity);
+        
     }
 
 
