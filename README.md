@@ -4,6 +4,7 @@
 
 # Setup
  * *install instructions go here*
+   * *git windows installation*
    * *Unity version and install go here*
    * *Editor install and extensions go here*
  * *clone instructions go here*
