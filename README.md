@@ -28,9 +28,14 @@
         4.  `Login with a web browser`, copy the code given and proceed to website
         5.  Login with git hub credentials
         6.  Login to git with email `git config --global user.email "<yourEmail@email.site>"`
-   * *lfs instructions go here*
-   * *Unity version and install go here*
-   
+   * *large file storage (LFS)*
+     * LFS is used to manage large files like images, audio, models and video.
+     * This is because the way git manages changes is not ideal for large file types or binaries
+     * install with `git lfs install`
+     * Before pushing a large file, ensure its file type is in the `.gitattributes` file
+   * *Unity Unity and Unity*
+     * install unity hub [here](https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe)
+     * through unity hub install version 202.3.11f1 
  * *clone instructions go here*
  * *permission instructions go here*
  
