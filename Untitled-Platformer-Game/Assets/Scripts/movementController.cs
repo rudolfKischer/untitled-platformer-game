@@ -55,6 +55,15 @@ public class movementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
+       //Raycasting
+        Vector3 endRay = Input.mousePosition - transform.position;
+        Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
+       RaycastHit2D hit = Physics2D.Raycast(transform.position + 2f*endRay.normalized, endRay, 10f);
+       if(hit.collider != null){
+        Debug.Log (hit.collider.gameObject);
+       } 
+
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Jump");
         if(dashTimer < dashCoolDown && Input.GetKeyDown(KeyCode.LeftShift)){
@@ -70,7 +79,6 @@ public class movementController : MonoBehaviour
         animate();
         
 
-        Debug.Log("isGrounded:"+isGrounded());
         
     }
 
