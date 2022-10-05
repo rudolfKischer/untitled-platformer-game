@@ -88,7 +88,7 @@ public class movementController : MonoBehaviour
             anim.SetBool("isMovingLeft", false);
         }
 
-        if(vertical == 1){
+        if(vertical == 1 && !grounded.isGrounded()){
             anim.SetBool("isJumping", true);
         }else{
        

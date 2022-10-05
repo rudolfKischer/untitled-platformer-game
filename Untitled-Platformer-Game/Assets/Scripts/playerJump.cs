@@ -15,12 +15,13 @@ public class playerJump : MonoBehaviour
     
     
     [HideInInspector] public Rigidbody2D body;
+    [HideInInspector] public Animator anim;
     private grounded grounded;
     private bool jumpRequested;
     private float verticalVelocity;
+    private float vertical;
     
     //Jump Control
-    private float vertical;
 
     void Awake()
     {
@@ -49,7 +50,7 @@ public class playerJump : MonoBehaviour
     }
 
     private void jump(){
-        verticalVelocity += vertical * jumpSpeed;
+        verticalVelocity += jumpSpeed;
     }
 
 
@@ -58,19 +59,21 @@ public class playerJump : MonoBehaviour
             verticalVelocity = 0;
             if(jumpRequested){
                 jump();
-                jumpRequested = false;
+                
             }
         }else{
             fall();
         }
+        jumpRequested = false;
     }
 
      void Update()
     {
         vertical = Input.GetAxisRaw("Jump");
-        if(vertical > 0){
+        if(Input.GetKeyDown(KeyCode.Space)){
             jumpRequested = true;
         }
+        
     }
     private void FixedUpdate()
     { 
