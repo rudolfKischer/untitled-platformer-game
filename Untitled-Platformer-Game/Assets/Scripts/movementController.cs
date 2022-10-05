@@ -29,12 +29,14 @@ public class movementController : MonoBehaviour
     public float jumpSpeed = 20.0f;
     public float upGravity = -2.00f;
     public float downGravity = -3.0f;
+    public float terminalVelocity = 100.0f;
+    private bool jumpRequested;
 
     //horizonal movement
     public float dashSpeed = 40.0f;
     public float dashTime = 0.2f;
     public float dashCoolDown = 0.3f;
-    public float dashTimer = 0.0f;
+    private float dashTimer = 0.0f;
 
     public float horizontalVelocity = 0.0f;
     public float verticalVelocity = 0.0f;
@@ -66,6 +68,10 @@ public class movementController : MonoBehaviour
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Jump");
+        if(vertical > 0){
+            jumpRequested = true;
+        }
+
         if(dashTimer < dashCoolDown && Input.GetKeyDown(KeyCode.LeftShift)){
             dashTimer = dashTime;
         }else{
@@ -110,24 +116,25 @@ public class movementController : MonoBehaviour
         }
     }
 
-    private void jump(){
-        if(!isGrounded()){
-
-            //change up vs down gravity
-            float downAcceleration;
-            if(verticalVelocity > 0){
-                downAcceleration = upGravity / (1+holdJumpStrength*vertical) ;
-            }else{
-                downAcceleration = downGravity;
-            }
-
-            verticalVelocity += downAcceleration;
-
+    private void fall(){
+        //change up vs down gravity
+        float downAcceleration;
+        if(verticalVelocity > 0){
+            downAcceleration = upGravity / (1+holdJumpStrength*vertical) ;
         }else{
-            verticalVelocity = 0;
-            verticalVelocity += vertical * jumpSpeed;
+            downAcceleration = downGravity;
         }
 
+        if( Mathf.Abs(verticalVelocity) < terminalVelocity){
+            verticalVelocity += downAcceleration;
+        }else{
+            verticalVelocity = Mathf.Sign(verticalVelocity) * terminalVelocity ;
+        }
+        
+    }
+
+    private void jump(){
+            verticalVelocity += vertical * jumpSpeed;
     }
 
     private void animate(){
@@ -164,8 +171,19 @@ public class movementController : MonoBehaviour
     private void FixedUpdate()
     {   
         horizontalVelocity = horizontal * runSpeed;
-        jump();
+
+        if(grounded.isGrounded()){
+            verticalVelocity = 0;
+            if(jumpRequested){
+                jump();
+                jumpRequested = false;
+            }
+        }else{
+            fall();
+        }
+
         dash();
+        
         body.velocity = new Vector2(horizontalVelocity, verticalVelocity);
         
     }
