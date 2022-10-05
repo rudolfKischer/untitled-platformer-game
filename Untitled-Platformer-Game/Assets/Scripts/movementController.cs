@@ -7,8 +7,9 @@ using Random=UnityEngine.Random;
 public class movementController : MonoBehaviour
 {
 
-    public LayerMask groundLayer;
-    Rigidbody2D body;
+    [Header("Components")]
+    [HideInInspector]public Rigidbody2D body;
+    private grounded grounded;
     private BoxCollider2D coll;
 
     public Animator anim;
@@ -39,7 +40,9 @@ public class movementController : MonoBehaviour
     public float verticalVelocity = 0.0f;
     public float runSpeed = 10.0f;
     
-    
+    void Awake(){
+        grounded = GetComponent<grounded>();
+    }
     
 
     // Start is called before the first frame update
@@ -75,11 +78,11 @@ public class movementController : MonoBehaviour
         
         //Debug.Log(collision);
 
-        if (collision.gameObject.layer== groundLayer){
-            if(isGrounded()){
-                onGround = 1;
-            }
+        
+        if(isGrounded()){
+            onGround = 1;
         }
+        
  
     }
 
@@ -88,8 +91,9 @@ public class movementController : MonoBehaviour
 
 
     bool isGrounded() {
-        Vector2 size = coll.bounds.size;
-        return Physics2D.BoxCast(coll.bounds.center, size, 0f, Vector2.down, 0.1f, groundLayer);
+        // Vector2 size = coll.bounds.size;
+        // return Physics2D.BoxCast(coll.bounds.center, size, 0f, Vector2.down, 0.1f, groundLayer);
+        return grounded.isGrounded();
     }
 
     private void dash(){
