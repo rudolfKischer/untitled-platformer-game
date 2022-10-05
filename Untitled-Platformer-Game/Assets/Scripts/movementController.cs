@@ -19,19 +19,6 @@ public class movementController : MonoBehaviour
     float vertical;
     bool dashing;
 
-    float onGround = 1;
-
-    
-    
-
-    //vertical Movement
-    public float holdJumpStrength = 1.0f;
-    public float jumpSpeed = 20.0f;
-    public float upGravity = -2.00f;
-    public float downGravity = -3.0f;
-    public float terminalVelocity = 100.0f;
-    private bool jumpRequested;
-
     //horizonal movement
     public float dashSpeed = 40.0f;
     public float dashTime = 0.2f;
@@ -51,7 +38,6 @@ public class movementController : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        coll = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -61,16 +47,13 @@ public class movementController : MonoBehaviour
        //Raycasting
         Vector3 endRay = Input.mousePosition - transform.position;
         Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
-       RaycastHit2D hit = Physics2D.Raycast(transform.position + 2f*endRay.normalized, endRay, 10f);
-       if(hit.collider != null){
-        Debug.Log (hit.collider.gameObject);
-       } 
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + 2f*endRay.normalized, endRay, 10f);
+        if(hit.collider != null){
+            // Debug.Log (hit.collider.gameObject);
+        } 
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Jump");
-        if(vertical > 0){
-            jumpRequested = true;
-        }
 
         if(dashTimer < dashCoolDown && Input.GetKeyDown(KeyCode.LeftShift)){
             dashTimer = dashTime;
@@ -83,31 +66,6 @@ public class movementController : MonoBehaviour
         } 
        
         animate();
-        
-
-        
-    }
-
-    private void OnCollisionStay2D(Collision2D collision){
-        
-        //Debug.Log(collision);
-
-        
-        if(isGrounded()){
-            onGround = 1;
-        }
-        
- 
-    }
-
-    
-
-
-
-    bool isGrounded() {
-        // Vector2 size = coll.bounds.size;
-        // return Physics2D.BoxCast(coll.bounds.center, size, 0f, Vector2.down, 0.1f, groundLayer);
-        return grounded.isGrounded();
     }
 
     private void dash(){
@@ -116,31 +74,7 @@ public class movementController : MonoBehaviour
         }
     }
 
-    private void fall(){
-        //change up vs down gravity
-        float downAcceleration;
-        if(verticalVelocity > 0){
-            downAcceleration = upGravity / (1+holdJumpStrength*vertical) ;
-        }else{
-            downAcceleration = downGravity;
-        }
-
-        if( Mathf.Abs(verticalVelocity) < terminalVelocity){
-            verticalVelocity += downAcceleration;
-        }else{
-            verticalVelocity = Mathf.Sign(verticalVelocity) * terminalVelocity ;
-        }
-        
-    }
-
-    private void jump(){
-            verticalVelocity += vertical * jumpSpeed;
-    }
-
     private void animate(){
-        
-        
-
         if(horizontal >= 0.5){
             anim.SetBool("isMovingRight", true);
         }else{
@@ -171,20 +105,8 @@ public class movementController : MonoBehaviour
     private void FixedUpdate()
     {   
         horizontalVelocity = horizontal * runSpeed;
-
-        if(grounded.isGrounded()){
-            verticalVelocity = 0;
-            if(jumpRequested){
-                jump();
-                jumpRequested = false;
-            }
-        }else{
-            fall();
-        }
-
         dash();
-        
-        body.velocity = new Vector2(horizontalVelocity, verticalVelocity);
+        body.velocity = new Vector2(horizontalVelocity,  body.velocity.y);
         
     }
 
