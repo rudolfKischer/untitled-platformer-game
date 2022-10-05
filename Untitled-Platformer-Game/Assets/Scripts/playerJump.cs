@@ -15,7 +15,6 @@ public class playerJump : MonoBehaviour
     
     
     [HideInInspector] public Rigidbody2D body;
-    [HideInInspector] public Animator anim;
     private grounded grounded;
     private bool jumpRequested;
     private float verticalVelocity;
