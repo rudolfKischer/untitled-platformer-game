@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random=UnityEngine.Random;
 
 public class movementController : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class movementController : MonoBehaviour
             if(dashTimer < 0.0f){
                 dashTimer = 0.0f;
             }
+          
         } 
        
         animate();
@@ -138,6 +140,9 @@ public class movementController : MonoBehaviour
         }else{
        
             anim.SetBool("isJumping", false);
+        }
+        if(Random.Range(1,1000) == 253){
+            anim.SetTrigger("Lick");
         }
 
     }
