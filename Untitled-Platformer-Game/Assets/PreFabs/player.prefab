@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 8616477537338484178}
   - component: {fileID: 8616477537338484179}
   - component: {fileID: 3048017378608245005}
+  - component: {fileID: 1990616610680253}
+  - component: {fileID: 2715331339563339801}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -105,11 +107,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 0}
   anim: {fileID: 8616477537338484178}
-  holdJumpStrength: 1
-  jumpSpeed: 20
-  upGravity: -2
-  downGravity: -3
-  terminalVelocity: 100
   dashSpeed: 40
   dashTime: 0.2
   dashCoolDown: 0.3
@@ -220,6 +217,32 @@ MonoBehaviour:
   upGravity: -2
   downGravity: -3
   body: {fileID: 0}
+--- !u!114 &1990616610680253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616477537338484188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f476d1d2f7f68458d68d1578caf8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2715331339563339801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616477537338484188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b864a600f217444f92d6058196a39be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grappleSpeed: 0
+  grappling: 0
 --- !u!1 &8616477538351316500
 GameObject:
   m_ObjectHideFlags: 0
