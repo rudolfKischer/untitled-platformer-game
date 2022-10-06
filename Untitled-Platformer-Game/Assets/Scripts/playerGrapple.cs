@@ -21,25 +21,35 @@ public class playerGrapple : MonoBehaviour
 
     // Update is called once per frame
     public bool grappleCheck(){
-        
+        /* if(GetComponent<rayCastManager>().rayCastObject() != null){
+                Debug.Log("hello world");
+        }else{
+            return false;
+        }
         if(grappeling){
             return true;
         }else if(Input.GetKeyDown("g")){
-            if(GetComponent<rayCastManager>().rayCastObject() != null){
+            
             
 
             grappleTarget = GetComponent<rayCastManager>().rayCastObject();
             grappeling = true;
             return true;
-        }
+        
         }else{
             grappleTarget = null;
             return false;
         }
+        */
+    
         //chec if currently grappeling 
         //check if keydown
         //check if rayHit a grappelable object
-        
+        if(GetComponent<rayCastManager>().rayCastObject() != null){
+            Debug.Log("hi!");
+        }else{
+            return false;
+        }
     return false;
     }
 
