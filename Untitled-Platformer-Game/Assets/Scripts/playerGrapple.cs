@@ -10,11 +10,13 @@ public class playerGrapple : MonoBehaviour
     public bool grappling;
     private bool gUp;
     private GameObject grappleTarget;
+    public float grappleTimer;
+    public float grappleTime;
     // Start is called before the first frame update
     void Start()
     {
-        gUp = false;
-        grappleSpeed = 10;
+        
+        grappleTimer = grappleTime;
         grappleVelocity = new Vector2(0,0);
         body = GetComponent<Rigidbody2D>();
         grappling = false;
@@ -30,17 +32,23 @@ public class playerGrapple : MonoBehaviour
             grappleTarget = GetComponent<rayCastManager>().rayCastObject();
             grappling = true;
          Debug.Log("Hello");
-          
-         
         }
+        // grapple timer  
+         if(grappling && grappleTimer >= 0f){
+             grappleTimer -= Time.deltaTime;
+             Debug.Log(grappleTimer);
+         }else{
+             grappleTimer = grappleTime;
+             
+         }
+        
     }
 
    public Vector2 grapple(){
-    Debug.Log("helloWorld");
         //send velocity
         //check if grapel finsihed
         //set grappeling to false
-  if((grappleTarget.transform.position - transform.position ).x > 3 || (grappleTarget.transform.position - transform.position ).y > 3 ) {    
+  if(grappleTimer >= 1f && (Mathf.Abs((grappleTarget.transform.position - transform.position ).x) > 3 || Mathf.Abs((grappleTarget.transform.position - transform.position ).y) > 3 )) {    
   grappleVelocity =grappleSpeed*(grappleTarget.transform.position - transform.position ).normalized;
    return grappleVelocity;
     }else{

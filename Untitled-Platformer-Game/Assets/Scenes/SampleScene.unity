@@ -1679,7 +1679,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b864a600f217444f92d6058196a39be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grappleSpeed: 0.03
+  grappleSpeed: 1
+  grappling: 0
+  grappleTimer: 0
+  grappleTime: 1.1
 --- !u!114 &1514873788
 MonoBehaviour:
   m_ObjectHideFlags: 0
