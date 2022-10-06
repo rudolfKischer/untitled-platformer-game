@@ -36,18 +36,26 @@ public class playerGrapple : MonoBehaviour
     }
 
    public Vector2 grapple(){
-    Debug.Log("helloWorld");
         //send velocity
         //check if grapel finsihed
         //set grappeling to false
-  if((grappleTarget.transform.position - transform.position ).x > 3 || (grappleTarget.transform.position - transform.position ).y > 3 ) {    
-  grappleVelocity =grappleSpeed*(grappleTarget.transform.position - transform.position ).normalized;
-   return grappleVelocity;
-    }else{
-        grappling = false;
-        return new Vector2(0,0);
-    }
+        if((grappleTarget.transform.position - transform.position ).x > 3 ||
+         (grappleTarget.transform.position - transform.position ).y > 3 ) {    
+            grappleVelocity =grappleSpeed*(grappleTarget.transform.position - transform.position ).normalized;
+            return grappleVelocity;
+        }else{
+            grappling = false;
+            return new Vector2(0,0);
+        }
    }
+
+   private void FixedUpdate()
+    {
+        if(grappling){
+            // Debug.Log("fuck lawyers");
+            body.velocity += grapple();
+        }
+    }
 
     
 }
