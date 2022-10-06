@@ -106,18 +106,12 @@ public class movementController : MonoBehaviour
     {   
         horizontalVelocity = horizontal * runSpeed;
         dash();
-        body.velocity = new Vector2(horizontalVelocity,  body.velocity.y);
+        
         if(GetComponent<playerGrapple>().grappling){
-<<<<<<< Updated upstream
             // Debug.Log("fuck lawyers");
             body.velocity =  GetComponent<playerGrapple>().grapple();
-=======
-           //Debug.Log("fuck lawyers");
-       body.velocity =  GetComponent<playerGrapple>().grapple();
         }else{
-        
-       // body.velocity = new Vector2(horizontalVelocity, verticalVelocity);
->>>>>>> Stashed changes
+            body.velocity = new Vector2(horizontalVelocity,  body.velocity.y);
         }
         
     }
