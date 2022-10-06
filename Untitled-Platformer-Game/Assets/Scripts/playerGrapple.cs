@@ -7,50 +7,32 @@ public class playerGrapple : MonoBehaviour
     Rigidbody2D body;
     public float grappleSpeed;
     private Vector2 grappleVelocity;
-    private bool grappeling;
+    public bool grappling;
+    private bool gUp;
     private GameObject grappleTarget;
     // Start is called before the first frame update
     void Start()
     {
+        gUp = false;
         grappleSpeed = 10;
         grappleVelocity = new Vector2(0,0);
         body = GetComponent<Rigidbody2D>();
-        grappeling = false;
+        grappling = false;
         grappleTarget = null;
     }
-
-    // Update is called once per frame
-    public bool grappleCheck(){
-        /* if(GetComponent<rayCastManager>().rayCastObject() != null){
-                Debug.Log("hello world");
-        }else{
-            return false;
-        }
-        if(grappeling){
-            return true;
-        }else if(Input.GetKeyDown("g")){
-            
-            
-
-            grappleTarget = GetComponent<rayCastManager>().rayCastObject();
-            grappeling = true;
-            return true;
+    void Update(){
+        //when g is pressed:
+        //cast ray to mouse check if there is a grapleable object and if the player is already grappling
+         Vector3 endRay = Input.mousePosition - transform.position;
+        Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
         
-        }else{
-            grappleTarget = null;
-            return false;
+        if(!grappling && Input.GetKeyDown("g") && GetComponent<rayCastManager>().rayCastObject()){
+            grappleTarget = GetComponent<rayCastManager>().rayCastObject();
+            grappling = true;
+         Debug.Log("Hello");
+          
+         
         }
-        */
-    
-        //chec if currently grappeling 
-        //check if keydown
-        //check if rayHit a grappelable object
-        if(GetComponent<rayCastManager>().rayCastObject() != null){
-            Debug.Log("hi!");
-        }else{
-            return false;
-        }
-    return false;
     }
 
    public Vector2 grapple(){
@@ -58,11 +40,11 @@ public class playerGrapple : MonoBehaviour
         //send velocity
         //check if grapel finsihed
         //set grappeling to false
-  if((grappleTarget.transform.position - transform.position ).x > 1 || (grappleTarget.transform.position - transform.position ).y > 1 ) {    
+  if((grappleTarget.transform.position - transform.position ).x > 3 || (grappleTarget.transform.position - transform.position ).y > 3 ) {    
   grappleVelocity =grappleSpeed*(grappleTarget.transform.position - transform.position ).normalized;
    return grappleVelocity;
     }else{
-        grappeling = false;
+        grappling = false;
         return new Vector2(0,0);
     }
    }

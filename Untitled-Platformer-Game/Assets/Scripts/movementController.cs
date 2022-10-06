@@ -156,11 +156,12 @@ public class movementController : MonoBehaviour
         horizontalVelocity = horizontal * runSpeed;
         jump();
         dash();
-        if(GetComponent<playerGrapple>().grappleCheck()){
-         body.velocity =  GetComponent<playerGrapple>().grapple();
+        if(GetComponent<playerGrapple>().grappling){
+           // Debug.Log("fuck lawyers");
+        body.velocity =  GetComponent<playerGrapple>().grapple();
         }else{
         
-        body.velocity = new Vector2(horizontalVelocity, verticalVelocity);
+       // body.velocity = new Vector2(horizontalVelocity, verticalVelocity);
         }
         
     }
