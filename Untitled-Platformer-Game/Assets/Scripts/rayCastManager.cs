@@ -12,14 +12,12 @@ public class rayCastManager : MonoBehaviour
         Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
         RaycastHit2D hit = Physics2D.Raycast(transform.position + 2f*endRay.normalized, endRay, 10f);
         
-        if(hit.collider !=null){
+        
           
         
         return hit.collider.gameObject;
-        }else{
         
-        return null;
-        }  
+        
         
 
     }
