@@ -104,15 +104,9 @@ public class movementController : MonoBehaviour
     //updates with time
     private void FixedUpdate()
     {   
-        horizontalVelocity = horizontal * runSpeed;
+        // horizontalVelocity = horizontal * runSpeed;
         dash();
-        
-        if(GetComponent<playerGrapple>().grappling){
-            // Debug.Log("fuck lawyers");
-            body.velocity =  GetComponent<playerGrapple>().grapple();
-        }else{
-            body.velocity = new Vector2(horizontalVelocity,  body.velocity.y);
-        }
+        // body.velocity -= (body.velocity - new Vector2(horizontalVelocity,  body.velocity.y));
         
     }
 
