@@ -104,9 +104,9 @@ public class movementController : MonoBehaviour
     //updates with time
     private void FixedUpdate()
     {   
-        horizontalVelocity = horizontal * runSpeed;
+        // horizontalVelocity = horizontal * runSpeed;
         dash();
-        body.velocity -= (body.velocity - new Vector2(horizontalVelocity,  body.velocity.y));
+        // body.velocity -= (body.velocity - new Vector2(horizontalVelocity,  body.velocity.y));
         
     }
 

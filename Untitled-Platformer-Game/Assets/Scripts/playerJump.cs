@@ -6,11 +6,11 @@ public class playerJump : MonoBehaviour
     [Header("Speed")]
     [SerializeField][Tooltip("Velocity given when jump pressed")] public float jumpForce = 1500.0f;
     [SerializeField][Tooltip("increases Jump height while holding")] float holdJumpStrength = 0.25f; // should be in between 
-    [SerializeField][Tooltip("Max vertical velocity")] public float terminalVelocity = 100.0f;
+    [SerializeField][Tooltip("Max vertical velocity")] public float terminalVerticalVelocity = 100.0f;
 
     [Header("Gravity")]
     [SerializeField][Tooltip("Strength of gravity while jumping up")] public float gForceUp = -50.00f;
-    [SerializeField][Tooltip("Strength of gravity while falling")] public float gForceDown = 200.0f;
+    [SerializeField][Tooltip("Strength of gravity while falling")] public float gForceDown = -200.0f;
     
     
     
@@ -28,6 +28,21 @@ public class playerJump : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+    }
+
+    
+    private float clamp(float val, float min, float max){
+        if(val < min){
+            return min;
+        }
+        if(val > max){
+            return max;
+        }
+        return val;
+    }
+
+    private float clampVelocity(float velocity){
+        return clamp(velocity, -terminalVerticalVelocity, terminalVerticalVelocity);
     }
 
     private bool holdingJump(){
@@ -52,7 +67,7 @@ public class playerJump : MonoBehaviour
 
     private float getNormalForce(){
         if(isGrounded()){
-            return getGravityForce();
+            return -getGravityForce();
         }
         return 0.0f;
     }
@@ -66,13 +81,13 @@ public class playerJump : MonoBehaviour
     }
 
     private float getHoldJumpForce(){
-        if(holdingJump() && goingUp()){
+        if(holdingJump() && goingUp() && !isGrounded()){
             return -getGravityForce() * holdJumpStrength;
         }
         return 0;
     }
 
-    private float getVerticalNetForce(){
+    private float getNetVerticalForce(){
         float netVerticalForce = 0;
         netVerticalForce += getGravityForce();
         netVerticalForce += getNormalForce();
@@ -82,10 +97,9 @@ public class playerJump : MonoBehaviour
         
     }
 
-
     public Vector2 getDeltaVelocity(){
-        float deltaVerticalVelocity = getVerticalNetForce() * Time.deltaTime;
-        return new Vector2(body.velocity.x, deltaVerticalVelocity);
+        float deltaVerticalVelocity = getNetVerticalForce() * Time.deltaTime; //make sure does not surpass terminal velocity
+        return new Vector2(0.0f, deltaVerticalVelocity);
     }
 
      void Update()
@@ -98,6 +112,9 @@ public class playerJump : MonoBehaviour
     private void FixedUpdate()
     { 
         body.velocity += getDeltaVelocity();
+        float clampedVelocity = clampVelocity(body.velocity.y);
+        body.velocity = new Vector2(body.velocity.x, clampedVelocity ); //make sure does not surpass terminal velocity
+        Debug.Log( body.velocity);
     }
 
 

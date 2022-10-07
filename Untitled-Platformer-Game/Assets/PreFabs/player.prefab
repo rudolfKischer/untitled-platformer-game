@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3048017378608245005}
   - component: {fileID: 1990616610680253}
   - component: {fileID: 2715331339563339801}
+  - component: {fileID: 8643379176010975085}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -211,11 +212,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fcd369006657740b12c5be38a36ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSpeed: 20
-  holdJumpStrength: 1
-  terminalVelocity: 100
-  upGravity: -2
-  downGravity: -3
+  jumpForce: 1500
+  holdJumpStrength: 0
+  terminalVerticalVelocity: 100
+  gForceUp: -50
+  gForceDown: -200
   body: {fileID: 0}
 --- !u!114 &1990616610680253
 MonoBehaviour:
@@ -243,6 +244,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grappleSpeed: 0
   grappling: 0
+--- !u!114 &8643379176010975085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616477537338484188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 620772dab39169945a0d397f944ba618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkForce: 1500
+  airWalkForce: 1500
+  walkSpeed: 5.7
+  airWalkSpeed: 10
+  terminalHorizontalVelocity: 100
+  body: {fileID: 0}
 --- !u!1 &8616477538351316500
 GameObject:
   m_ObjectHideFlags: 0
