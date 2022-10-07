@@ -64,25 +64,28 @@ public class playerWalk : MonoBehaviour
         //responsible for making sure the acceleration doesnt over shoot
         float speedDiff = (velocityGoal - body.velocity.x);
         float maxForce = speedDiff / Time.deltaTime;
-
-        if(maxForce > 0 && force > 0){
+        
+        if(maxForce > 0.0f && force > 0.0f){
             return Mathf.Min(force, maxForce);
-        }else if(maxForce < 0 && force < 0){
+        }else if(maxForce < 0.0f && force < 0.0f){
             return Mathf.Max(force, maxForce);
-        }else{
+        }else if(force == 0.0f){
+            return force;
+        }else {
             return maxForce;
         }
     }
 
     private float getWalkForce(){
-        float currentWalkForce = clampForceVal(walkForce * horizontal,walkSpeed * horizontal);
+        float currentWalkForce = clampForceVal(walkForce * horizontal, walkSpeed * horizontal);
+        float vel = body.velocity.x;
         if(isGrounded()){
-            return currentWalkForce;
+                return currentWalkForce;
         }
         return 0;
     }
 
-    private float getAirWalkForce(){
+    public float getAirWalkForce(){
         float airWalkMaxVelocity = airWalkSpeed  * horizontal;
         float airWalkDirectionalForce = airWalkForce * horizontal;
         float currentAirWalkForce = clampForceVal(airWalkDirectionalForce,airWalkMaxVelocity);
@@ -92,9 +95,19 @@ public class playerWalk : MonoBehaviour
         return 0;
     }
 
+    private float getFrictionForce(){
+        float direction = -Mathf.Sign(body.velocity.x);
+        float currentWalkForce = clampForceVal(walkForce /2.0f * direction, 0);
+        if(isGrounded()){
+                return currentWalkForce;
+        }
+        return 0;
+    }
+
     private float getNetHorizontalForce(){
         float netHorizontalForce=0;
         netHorizontalForce += getWalkForce();
+        netHorizontalForce += getFrictionForce();
         netHorizontalForce += getAirWalkForce();
         return netHorizontalForce;
     }
@@ -106,9 +119,11 @@ public class playerWalk : MonoBehaviour
 
     private void FixedUpdate()
     { 
+        
         body.velocity += getDeltaVelocity();
         float clampedVelocity = clampVelocity(body.velocity.x);
         body.velocity = new Vector2(clampedVelocity, body.velocity.y); //make sure does not surpass terminal velocity
+        
     }
 
 

@@ -5,18 +5,20 @@ public class playerJump : MonoBehaviour
     //vertical Movement
     [Header("Speed")]
     [SerializeField][Tooltip("Velocity given when jump pressed")] public float jumpForce = 1500.0f;
-    [SerializeField][Tooltip("increases Jump height while holding")] float holdJumpStrength = 0.25f; // should be in between 
+    [SerializeField][Tooltip("increases Jump height while holding")] float holdJumpStrength = 0.5f; // should be in between 
     [SerializeField][Tooltip("Max vertical velocity")] public float terminalVerticalVelocity = 100.0f;
 
     [Header("Gravity")]
-    [SerializeField][Tooltip("Strength of gravity while jumping up")] public float gForceUp = -50.00f;
-    [SerializeField][Tooltip("Strength of gravity while falling")] public float gForceDown = -200.0f;
+    [SerializeField][Tooltip("Strength of gravity while jumping up")] public float gForceUp = -70.00f;
+    [SerializeField][Tooltip("Strength of gravity while falling")] public float gForceDown = -100.0f;
     
     
     
     [HideInInspector] public Rigidbody2D body;
     private grounded grounded;
     private bool jumpRequested;
+
+    private bool doingAJump;
     private float vertical; //vertical control
     
     //Jump Control
@@ -56,12 +58,12 @@ public class playerJump : MonoBehaviour
         return body.velocity.y > 0;
     }
 
-    private float getGravityForce(){
+    public float getGravityForce(){
         //change up vs down gravity
         if(goingUp()){
             return gForceUp;
         }else{
-            return gForceDown;
+            return gForceUp;
         }
     }
 
@@ -74,6 +76,7 @@ public class playerJump : MonoBehaviour
 
     private float getJumpForce(){
         if(jumpRequested && isGrounded()){
+            doingAJump = true;
             jumpRequested = false; //might not be ideal to have this here
             return jumpForce;
         }
@@ -114,7 +117,9 @@ public class playerJump : MonoBehaviour
         body.velocity += getDeltaVelocity();
         float clampedVelocity = clampVelocity(body.velocity.y);
         body.velocity = new Vector2(body.velocity.x, clampedVelocity ); //make sure does not surpass terminal velocity
-        Debug.Log( body.velocity);
+        if(isGrounded()){
+            doingAJump = false;
+        }
     }
 
 
