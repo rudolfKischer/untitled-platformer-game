@@ -1074,6 +1074,7 @@ GameObject:
   - component: {fileID: 1147407090}
   - component: {fileID: 1147407093}
   - component: {fileID: 1147407092}
+  - component: {fileID: 1147407094}
   m_Layer: 0
   m_Name: Fly
   m_TagString: Untagged
@@ -1089,7 +1090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147407088}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.9, y: -7.4, z: -0.072259605}
+  m_LocalPosition: {x: -4.5, y: -6.6, z: -0.072259605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1201,8 +1202,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54497c8dda7a9174fabeb3c2b6924cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeedHorizontal: 0
-  anim: {fileID: 0}
+  SpeedHorizontal: 0
+  anim: {fileID: 1147407090}
+  timeTurn: 1
+  directionX: 0
+  walkForce: 20
+  Player: {fileID: 101439261}
+--- !u!61 &1147407094
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147407088}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.3, y: 1.35}
+    newSize: {x: 0.26, y: 0.27}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.3, y: 1.35}
+  m_EdgeRadius: 0
 --- !u!1 &1322064569
 GameObject:
   m_ObjectHideFlags: 0
