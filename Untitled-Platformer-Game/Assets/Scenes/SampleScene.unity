@@ -1090,7 +1090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147407088}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.5, y: -7.4, z: -0.072259605}
+  m_LocalPosition: {x: -4.5, y: -6.6, z: -0.072259605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1202,11 +1202,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54497c8dda7a9174fabeb3c2b6924cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeedHorizontal: 1
+  SpeedHorizontal: 0
   anim: {fileID: 1147407090}
   timeTurn: 1
-  direction: -1
+  directionX: 0
   walkForce: 20
+  Player: {fileID: 101439261}
 --- !u!61 &1147407094
 BoxCollider2D:
   m_ObjectHideFlags: 0

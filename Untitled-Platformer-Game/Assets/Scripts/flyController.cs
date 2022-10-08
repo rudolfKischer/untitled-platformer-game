@@ -5,17 +5,17 @@ using UnityEngine;
 public class flyController : MonoBehaviour
 {
    Rigidbody2D body;
-   public float flySpeedHorizontal;
+   public float SpeedHorizontal;
    public Animator anim;
    public float timeTurn;
    private float timerTurn;
-   public int direction;
-   private bool directionChanged;
+   public int directionX;
    public float walkForce;
+   public Transform Player;
     // Start is called before the first frame update
     void Start()
     {
-        direction = 1;
+        directionX = 1;
         body = GetComponent<Rigidbody2D>();
         timerTurn = timeTurn;
     }
@@ -25,22 +25,43 @@ public class flyController : MonoBehaviour
     {
         
 
-countDownTurnTimer();
-
+//countDownTurnTimer();
+chasePlayer();
 animate();
-    }
-private void animate(){
 
-if(direction == 1){
+
+
+
+    }
+private void chasePlayer(){
+
+if(Player.position.x - body.position.x <0){
+    directionX = -1;
+
+
+}else{
+    directionX = 1;
+}
+
+
+
+    }
+
+
+
+private void animate(){
+if(directionX == 1){
     anim.SetBool("isMovingRight", true);
     anim.SetBool("isMovingLeft", false);
 }else{
     anim.SetBool("isMovingLeft", true);
-    anim.SetBool("isMovingRight", false);
+    anim.SetBool("isMovingRight", false); 
+    }    
 }
 
-    
-}
+
+
+
 private void countDownTurnTimer(){
     if(timerTurn>0){
 timerTurn -= Time.deltaTime;
@@ -52,22 +73,11 @@ timerTurn -= Time.deltaTime;
 }
   
 private void changeDirection(){
- direction = direction*-1;
- directionChanged = true;
+ directionX = directionX*-1;
 
 }
 
-private float swapedDirection(){
- if(directionChanged){
-    
-    directionChanged = false;
-    return 10*timeTurn*direction;
- }else{
-    return 0;
- }
- 
 
-}
  private float clampForceVal(float force, float velocityGoal){
         //responsible for making sure the acceleration doesnt over shoot
         float speedDiff = (velocityGoal - body.velocity.x);
@@ -85,14 +95,15 @@ private float swapedDirection(){
     }
 
  private float getFrictionForce(){
-        float currentWalkForce = clampForceVal(walkForce /2.0f * direction, 5*direction);
+        float currentWalkForce = clampForceVal(walkForce /2.0f * directionX, 5*directionX);
         return currentWalkForce;
  }
+ 
 private float getFlyHorizontal(){
 
 
     
-return flySpeedHorizontal*direction;
+return SpeedHorizontal*directionX;
 
   }
 
