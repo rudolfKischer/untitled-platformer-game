@@ -18,11 +18,13 @@ public class playerGrapple : MonoBehaviour
 
     private playerJump jump;
 
+    public Transform tongue;
+
     private playerWalk walk;
     // Start is called before the first frame update
     void Start()
     {
-        
+        tongue = transform.Find("Tongue");
         body = GetComponent<Rigidbody2D>();
         rayCaster = GetComponent<rayCastManager>();
         jump = GetComponent<playerJump>();
@@ -57,6 +59,20 @@ public class playerGrapple : MonoBehaviour
             return force;
         }else {
             return maxForce;
+        }
+    }
+
+    private void drawGrapple(){
+        
+        if(grappling){
+            tongue.GetComponent<Renderer>().enabled = true;
+            float angle = Vector2.SignedAngle(new Vector2(0.0f,1.0f), grappleDirection());
+            Debug.Log(angle);
+            tongue.localRotation = Quaternion.Euler(0, 0, angle);
+            tongue.position = body.position + grappleDisplacement() * 0.4f;
+            tongue.localScale = new Vector3(tongue.localScale.x, 0.25f * grappleDistance(), tongue.localScale.z);
+        }else{
+            tongue.GetComponent<Renderer>().enabled = false;
         }
     }
 
@@ -104,8 +120,12 @@ public class playerGrapple : MonoBehaviour
         return netForce;
    }
 
+
    private void FixedUpdate()
-    {
+    {   
+        
+        drawGrapple();
+        
         body.velocity += getNetForce();
     }
 
