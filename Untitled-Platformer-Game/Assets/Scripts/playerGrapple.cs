@@ -12,7 +12,7 @@ public class playerGrapple : MonoBehaviour
     private bool pressingGrapple;
     private GameObject grappleTarget;
 
-    private Vector2 grappleTargetPoint;
+    private Vector2 pointOnTarget;
 
     private rayCastManager rayCaster;
 
@@ -34,8 +34,7 @@ public class playerGrapple : MonoBehaviour
         rayCaster = GetComponent<rayCastManager>();
         jump = GetComponent<playerJump>();
         walk = GetComponent<playerWalk>();
-        grappling = false;
-        grappleTarget = null;
+        grappling = false;    
     }
     void Update(){
         //when g is pressed:
@@ -44,9 +43,10 @@ public class playerGrapple : MonoBehaviour
         Vector3 endRay =  mouse - transform.position;
         Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
         pressingGrapple = Input.GetKey("g");
-
         if(!grappling && Input.GetKeyDown("g") && rayCaster.rayCastObject()){
-            grappleTargetPoint = rayCaster.rayCastPoint();
+            grappleTarget = rayCaster.rayCastObject();
+            Vector2 targetPos = grappleTarget.transform.position;
+            pointOnTarget = rayCaster.rayCastPoint() - targetPos;
             grappling = true;
         }
     }
@@ -72,20 +72,20 @@ public class playerGrapple : MonoBehaviour
         if(grappling){
             tongue.GetComponent<Renderer>().enabled = true;
             float angle = Vector2.SignedAngle(new Vector2(0.0f,1.0f), grappleDirection());
-            Debug.Log(angle);
             tonguePivot.localRotation = Quaternion.Euler(0, 0, angle);
-            // tongue.position = body.position + grappleDisplacement();
             tonguePivot.localScale = new Vector3(tonguePivot.localScale.x, grappleDistance() * 0.25f, tonguePivot.localScale.z);
-            // tongue.localRotation = Quaternion.Euler(0, 0, angle);
-            // tongue.position = body.position + grappleDisplacement() * 0.5f;
-            // tongue.localScale = new Vector3(tongue.localScale.x, grappleDistance() * 0.25f, tongue.localScale.z);
-        }else{
+        }else{         
             tongue.GetComponent<Renderer>().enabled = false;
         }
     }
 
+    private Vector2 getGrapplePoint(){
+        Vector2 targetPos = grappleTarget.transform.position;
+        return targetPos + pointOnTarget;
+    }
+
     private Vector2 grappleDisplacement(){
-        return (grappleTargetPoint - body.position);
+        return (getGrapplePoint() - body.position);
     }
 
     private float grappleDistance(){
