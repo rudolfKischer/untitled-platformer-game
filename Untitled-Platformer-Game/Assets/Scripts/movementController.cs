@@ -44,13 +44,7 @@ public class movementController : MonoBehaviour
     void Update()
     {
        
-       //Raycasting
-        Vector3 endRay = Input.mousePosition - transform.position;
-        Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + 2f*endRay.normalized, endRay, 10f);
-        if(hit.collider != null){
-            // Debug.Log (hit.collider.gameObject);
-        } 
+   
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Jump");

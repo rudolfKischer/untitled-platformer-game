@@ -18,11 +18,18 @@ public class playerGrapple : MonoBehaviour
 
     private playerJump jump;
 
+    public Transform tongue;
+    public Transform tonguePivot;
+
     private playerWalk walk;
+
+    private Camera camera;
     // Start is called before the first frame update
     void Start()
     {
-        
+        camera = GetComponent<Camera>();
+        tonguePivot = transform.Find("TonguePivot");
+        tongue = tonguePivot.Find("Tongue");
         body = GetComponent<Rigidbody2D>();
         rayCaster = GetComponent<rayCastManager>();
         jump = GetComponent<playerJump>();
@@ -33,9 +40,9 @@ public class playerGrapple : MonoBehaviour
     void Update(){
         //when g is pressed:
         //cast ray to mouse check if there is a grapleable object and if the player is already grappling
-        Vector3 endRay = Input.mousePosition - transform.position;
-        // Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
-        
+        Vector3 mouse = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 endRay =  mouse - transform.position;
+        Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
         pressingGrapple = Input.GetKey("g");
 
         if(!grappling && Input.GetKeyDown("g") && rayCaster.rayCastObject()){
@@ -57,6 +64,23 @@ public class playerGrapple : MonoBehaviour
             return force;
         }else {
             return maxForce;
+        }
+    }
+
+    private void drawGrapple(){
+        
+        if(grappling){
+            tongue.GetComponent<Renderer>().enabled = true;
+            float angle = Vector2.SignedAngle(new Vector2(0.0f,1.0f), grappleDirection());
+            Debug.Log(angle);
+            tonguePivot.localRotation = Quaternion.Euler(0, 0, angle);
+            // tongue.position = body.position + grappleDisplacement();
+            tonguePivot.localScale = new Vector3(tonguePivot.localScale.x, grappleDistance() * 0.25f, tonguePivot.localScale.z);
+            // tongue.localRotation = Quaternion.Euler(0, 0, angle);
+            // tongue.position = body.position + grappleDisplacement() * 0.5f;
+            // tongue.localScale = new Vector3(tongue.localScale.x, grappleDistance() * 0.25f, tongue.localScale.z);
+        }else{
+            tongue.GetComponent<Renderer>().enabled = false;
         }
     }
 
@@ -104,8 +128,12 @@ public class playerGrapple : MonoBehaviour
         return netForce;
    }
 
+
    private void FixedUpdate()
-    {
+    {   
+        
+        drawGrapple();
+        
         body.velocity += getNetForce();
     }
 
