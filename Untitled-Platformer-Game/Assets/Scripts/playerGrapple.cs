@@ -24,6 +24,8 @@ public class playerGrapple : MonoBehaviour
     private playerWalk walk;
 
     private Camera camera;
+
+    public GameObject musicManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,16 @@ public class playerGrapple : MonoBehaviour
             Vector2 targetPos = grappleTarget.transform.position;
             pointOnTarget = rayCaster.rayCastPoint() - targetPos;
             grappling = true;
+           
+           
+
+
+        }
+
+        if(grappling){
+            musicManager.GetComponent<musicManager>().trackOn(0);
+        }else {
+            musicManager.GetComponent<musicManager>().trackOff(0);
         }
     }
 
