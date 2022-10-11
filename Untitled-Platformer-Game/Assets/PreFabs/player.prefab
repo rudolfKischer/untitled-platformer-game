@@ -226,6 +226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 0}
   anim: {fileID: 8616477537338484178}
+  mass: 1
+  self: {fileID: 8616477537338484188}
   dashSpeed: 40
   dashTime: 0.2
   dashCoolDown: 0.3
@@ -361,8 +363,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grappleSpringConstant: 0.65
-  tongue: {fileID: 0}
-  tonguePivot: {fileID: 0}
+  tongue: {fileID: 5168509457147461423}
+  tonguePivot: {fileID: 9050136590192530902}
+  anim: {fileID: 8616477537338484178}
+  musicManager: {fileID: 0}
 --- !u!114 &8643379176010975085
 MonoBehaviour:
   m_ObjectHideFlags: 0
