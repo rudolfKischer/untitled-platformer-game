@@ -12,6 +12,8 @@ public class flyController : MonoBehaviour
    public int directionX;
    public float walkForce;
    public Transform Player;
+   public GameObject musicManager;
+   public bool flyChase;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,13 +28,27 @@ public class flyController : MonoBehaviour
         
 
 //countDownTurnTimer();
+if(flyChase){
 chasePlayer();
+}
+
+musicChanger();
 animate();
 
 
 
 
     }
+
+private void musicChanger(){
+    if(Player.position.x - body.position.x < 20 && Player.position.x - body.position.x > -20){
+musicManager.GetComponent<musicManager>().trackOn(4);
+    }else{
+musicManager.GetComponent<musicManager>().trackOff(4);
+    }
+
+    
+}
 private void chasePlayer(){
 
 if(Player.position.x - body.position.x <0){
@@ -46,6 +62,7 @@ if(Player.position.x - body.position.x <0){
 
 
     }
+
 
 
 
