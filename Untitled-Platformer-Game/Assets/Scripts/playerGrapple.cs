@@ -45,7 +45,7 @@ public class playerGrapple : MonoBehaviour
         Vector3 endRay =  mouse - transform.position;
         Debug.DrawRay(transform.position + 2f*endRay.normalized, endRay, Color.green);
         pressingGrapple = Input.GetKey("g");
-        if(!grappling && Input.GetKeyDown("g") && rayCaster.rayCastObject()){
+        if(!grappling && Input.GetKeyDown("g") && rayCaster.rayCastObject() && (rayCaster.rayCastObject().GetComponent<grappleSettings>() != null)){
             grappleTarget = rayCaster.rayCastObject();
             Vector2 targetPos = grappleTarget.transform.position;
             pointOnTarget = rayCaster.rayCastPoint() - targetPos;

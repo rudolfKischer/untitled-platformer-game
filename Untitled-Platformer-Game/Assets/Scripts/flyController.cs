@@ -13,6 +13,7 @@ public class flyController : MonoBehaviour
    public float walkForce;
    public Transform Player;
    public GameObject musicManager;
+   public bool flyChase;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,10 @@ public class flyController : MonoBehaviour
         
 
 //countDownTurnTimer();
+if(flyChase){
 chasePlayer();
+}
+
 musicChanger();
 animate();
 
