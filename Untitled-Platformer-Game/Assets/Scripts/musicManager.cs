@@ -75,6 +75,15 @@ public void changeSong(int songNumber){
     }
 
 }
+
+public void transitionTracks(int track1, int track2, float seconds){
+    while(audioSourceList[track1].volume > 0){
+    
+    audioSourceList[track1].volume -= 1*Time.deltaTime;
+    audioSourceList[track2].volume += 1*Time.deltaTime;
+    }
+    
+}
 //sets specified audiosources volume to 100
    public void trackOn(int track){
        audioSourceList[track].volume = 100;
