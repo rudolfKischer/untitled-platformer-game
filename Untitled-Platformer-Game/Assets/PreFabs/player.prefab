@@ -226,6 +226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 0}
   anim: {fileID: 8616477537338484178}
+  mass: 1
+  self: {fileID: 8616477537338484188}
   dashSpeed: 40
   dashTime: 0.2
   dashCoolDown: 0.3

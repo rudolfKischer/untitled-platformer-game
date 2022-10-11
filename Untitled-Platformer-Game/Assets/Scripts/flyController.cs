@@ -29,7 +29,13 @@ public class flyController : MonoBehaviour
 
 //countDownTurnTimer();
 if(flyChase){
-chasePlayer();
+if(Player.position.x - body.position.x <0){
+    directionX = -1;
+
+
+}else{
+    directionX = 1;
+}
 }
 
 musicChanger();
@@ -49,19 +55,7 @@ musicManager.GetComponent<musicManager>().trackOff(4);
 
     
 }
-private void chasePlayer(){
 
-if(Player.position.x - body.position.x <0){
-    directionX = -1;
-
-
-}else{
-    directionX = 1;
-}
-
-
-
-    }
 
 
 
@@ -119,7 +113,7 @@ private void changeDirection(){
 private float getFlyHorizontal(){
 
 
-    
+
 return SpeedHorizontal*directionX;
 
   }
@@ -141,7 +135,7 @@ return SpeedHorizontal*directionX;
     private void FixedUpdate()
     { 
         
-      //  body.velocity += getDeltaVelocity();
+      body.velocity += getDeltaVelocity();
     }
 
 }

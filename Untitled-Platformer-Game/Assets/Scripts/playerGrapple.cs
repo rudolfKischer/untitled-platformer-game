@@ -62,13 +62,25 @@ public class playerGrapple : MonoBehaviour
 
         }
 
-        if(grappling){
+       updateMusic();
+       animate();
+    }
+private void animate(){
+    if(grappling){
+    anim.SetBool("isGrappling",true);
+    }else{
+      anim.SetBool("isGrappling",false);  
+    }
+}
+private void updateMusic(){
+     if(grappling){
             musicManager.GetComponent<musicManager>().trackOn(0);
         }else {
+            if(GetComponent<grounded>().isGrounded()){
             musicManager.GetComponent<musicManager>().trackOff(0);
+            }
         }
-    }
-
+}
     private float clampForceVal(float force, float velocityGoal){
         //responsible for making sure the acceleration doesnt over shoot
         float speedDiff = (velocityGoal - body.velocity.x);
@@ -147,23 +159,39 @@ public class playerGrapple : MonoBehaviour
    }
 public float getRelativeMassCoefficient(){
     //implament frog mass
-    float frogMass = 1.0f;
-    float enemyMass = grappleTarget.GetComponent<grappleSettings>().mass;
-    float relativeMassCoefficient = enemyMass/frogMass;
+    float frogMass = getFrogMass();
+    float grappleTargetMass = getGrappleTargetMass();
+    float relativeMassCoefficient = grappleTargetMass/frogMass;
     return relativeMassCoefficient;
 //if mass is more than target due defualt
 //if target is equal apply to both
 //if mass is less than target pull towards
 
 }
+
+public float getFrogMass(){
+    return this.GetComponent<movementController>().mass;
+
+}
+public float getGrappleTargetMass(){
+return grappleTarget.GetComponent<grappleSettings>().mass;
+}
+
+public bool compareVector2Positions(float offset){
+    return  grappling && grappleTarget.GetComponent<Rigidbody2D>().position.x < body.position.x +offset && grappleTarget.GetComponent<Rigidbody2D>().position.x > body.position.x -1* offset
+            && grappleTarget.GetComponent<Rigidbody2D>().position.y < body.position.y +offset && grappleTarget.GetComponent<Rigidbody2D>().position.y > body.position.y -1*offset;
+
+}
+public float calculateOffset(){
+return 2*getFrogMass();
+}
 public void eat(){
-            if(getRelativeMassCoefficient() < 1 /*frogMass*/  && grappling && grappleTarget.GetComponent<Rigidbody2D>().position.x < body.position.x +2 && grappleTarget.GetComponent<Rigidbody2D>().position.x > body.position.x -2
-            && grappleTarget.GetComponent<Rigidbody2D>().position.y < body.position.y +2 && grappleTarget.GetComponent<Rigidbody2D>().position.y > body.position.y -2
-             ){
+            if(getRelativeMassCoefficient() < 1 && compareVector2Positions(calculateOffset())){
                 Destroy(grappleTarget);
                 isEnemy = false;
                 grappling = false;
                 anim.SetTrigger("eat");
+                this.GetComponent<movementController>().increaseMass(getGrappleTargetMass());
             }
 }
 

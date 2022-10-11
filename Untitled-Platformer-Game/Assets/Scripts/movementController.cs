@@ -13,7 +13,8 @@ public class movementController : MonoBehaviour
     private BoxCollider2D coll;
 
     public Animator anim;
-
+    public float mass;
+    
     //controls
     float horizontal;
     float vertical;
@@ -43,7 +44,8 @@ public class movementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+     
+        
    
 
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -60,6 +62,12 @@ public class movementController : MonoBehaviour
         } 
        
         animate();
+    }
+
+    public void increaseMass(float enemyMass){
+    mass += enemyMass;
+    this.transform.localScale += new Vector3(enemyMass, enemyMass, 0);
+
     }
 
     private void dash(){
