@@ -25,10 +25,15 @@ public class playerGrapple : MonoBehaviour
 
     private Camera camera;
 
+    private bool isEnemy;
+    
+    public Animator anim;
+
     public GameObject musicManager;
     // Start is called before the first frame update
     void Start()
     {
+        isEnemy = false;
         camera = GetComponent<Camera>();
         tonguePivot = transform.Find("TonguePivot");
         tongue = tonguePivot.Find("Tongue");
@@ -50,6 +55,7 @@ public class playerGrapple : MonoBehaviour
             Vector2 targetPos = grappleTarget.transform.position;
             pointOnTarget = rayCaster.rayCastPoint() - targetPos;
             grappling = true;
+            isEnemy = grappleTarget.GetComponent<grappleSettings>().isEnemy;
            
            
 
@@ -139,14 +145,41 @@ public class playerGrapple : MonoBehaviour
         netForce += getGrappleForce();
         return netForce;
    }
+public float getRelativeMassCoefficient(){
+    //implament frog mass
+    float frogMass = 1.0f;
+    float enemyMass = grappleTarget.GetComponent<grappleSettings>().mass;
+    float relativeMassCoefficient = enemyMass/frogMass;
+    return relativeMassCoefficient;
+//if mass is more than target due defualt
+//if target is equal apply to both
+//if mass is less than target pull towards
 
+}
+public void eat(){
+            if(getRelativeMassCoefficient() < 1 /*frogMass*/  && grappling && grappleTarget.GetComponent<Rigidbody2D>().position.x < body.position.x +2 && grappleTarget.GetComponent<Rigidbody2D>().position.x > body.position.x -2
+            && grappleTarget.GetComponent<Rigidbody2D>().position.y < body.position.y +2 && grappleTarget.GetComponent<Rigidbody2D>().position.y > body.position.y -2
+             ){
+                Destroy(grappleTarget);
+                isEnemy = false;
+                grappling = false;
+                anim.SetTrigger("eat");
+            }
+}
 
    private void FixedUpdate()
     {   
         
         drawGrapple();
-        
-        body.velocity += getNetForce();
+        if(isEnemy){
+          
+            grappleTarget.GetComponent<Rigidbody2D>().velocity += -1 * (1 / getRelativeMassCoefficient()) * getNetForce();
+            body.velocity += getRelativeMassCoefficient() / 2 * getNetForce();
+            eat();
+            
+            }else{
+            body.velocity += getNetForce(); 
+        }
     }
 
     

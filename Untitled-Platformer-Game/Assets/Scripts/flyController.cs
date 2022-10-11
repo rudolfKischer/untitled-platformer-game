@@ -141,7 +141,7 @@ return SpeedHorizontal*directionX;
     private void FixedUpdate()
     { 
         
-        body.velocity += getDeltaVelocity();
+      //  body.velocity += getDeltaVelocity();
     }
 
 }
